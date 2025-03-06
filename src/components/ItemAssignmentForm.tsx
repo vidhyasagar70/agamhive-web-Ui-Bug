@@ -9,6 +9,7 @@ import { Rack } from "../types/rack";
 import { Plus, MoreVertical, X } from "lucide-react";
 import '../styles/ItemModels.css';
 import SearchComponent from "./search/search";
+import Pagination from "./pagenation/Pagination"; // Import the Pagination component
 
 const ItemAssignmentForm: React.FC = () => {
     const [items, setItems] = useState<ItemType[]>([]);
@@ -21,16 +22,19 @@ const ItemAssignmentForm: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
+    const [loading, setLoading] = useState<boolean>(true); // Loading state
+
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const itemsPerPage = 5; // Set the number of items per page
 
     useEffect(() => {
         const loadData = async () => {
+            setLoading(true); // Set loading to true when starting to load data
             try {
                 const itemResponse = await fetchItems();
-                console.log("Item Response:", itemResponse); 
                 const rackResponse = await getRacks(); 
-                console.log("Rack Response:", rackResponse); 
                 const assignmentResponse = await fetchItemAssignments();
-                console.log("Assignment Response:", assignmentResponse); 
     
                 if (itemResponse.data) {
                     setItems(itemResponse.data.items);
@@ -43,6 +47,8 @@ const ItemAssignmentForm: React.FC = () => {
                 }
             } catch (error) {
                 console.error("Error loading data:", error); // Log any errors
+            } finally {
+                setLoading(false); // Set loading to false after data is loaded
             }
         };
     
@@ -106,6 +112,26 @@ const ItemAssignmentForm: React.FC = () => {
         setIsModalOpen(true); 
     };
 
+    // Filter item assignments based on search term
+    const filteredAssignments = itemAssignments.filter(assignment => {
+        const itemName = assignment.itemId ? assignment.itemId.partName.toLowerCase() : "";
+        const hsnCode = assignment.itemId ? assignment.itemId.hsnCode.toLowerCase() : "";
+        const rackName = assignment.rackId ? assignment.rackId.rackName.toLowerCase() : "";
+        return (
+            itemName.includes(searchTerm.toLowerCase()) ||
+            hsnCode.includes(searchTerm.toLowerCase()) ||
+            rackName.includes(searchTerm.toLowerCase())
+        );
+    });
+
+    // Calculate the current items to display based on pagination
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredAssignments.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Calculate total pages
+    const totalPages = Math.ceil(filteredAssignments.length / itemsPerPage);
+
     return (
         <div className="item-models-container">
             <h2>Assign Item to Rack</h2>
@@ -119,85 +145,99 @@ const ItemAssignmentForm: React.FC = () => {
                     <Plus size={20} /> Add Item
                 </button>
             </div>
-            {isModalOpen && (
-                <div className="item-models-modal-overlay">
-                    <div className="item-models-modal">
-                        <div className="item-models-modal-header">
-                            <h5>{isEditing ? "Edit Assignment" : "Add New Assignment"}</h5>
-                            <button className="item-models-modal-close" onClick={() => setIsModalOpen(false)}>
-                                <X size={20} />
-                            </button>
-                        </div>
-                        <form onSubmit={handleSubmit}>
-                            <div>
-                                <label htmlFor="itemSelect">Select Item:</label>
-                                <select
-                                    id="itemSelect"
-                                    value={selectedItemId}
-                                    onChange={(e) => setSelectedItemId(e.target.value)}
-                                >
-                                    <option value="">Select an item</option>
-                                    {items.map((item) => (
-                                        <option key={item._id} value={item._id}>
-                                            {item.partName} (HSN: {item.hsnCode})
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div>
-                                <label htmlFor="rackSelect">Select Rack:</label>
-                                <select
-                                    id="rackSelect"
-                                    value={selectedRackId}
-                                    onChange={(e) => setSelectedRackId(e.target.value)}
-                                >
-                                    <option value="">Select a rack</option>
-                                    {racks.map((rack) => (
-                                        <option key={rack._id} value={rack._id}>
-                                            {rack.rackName}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                            <button type="submit">{isEditing ? "Update Item" : "Add Item"}</button>
-                        </form>
-                    </div>
-                </div>
-            )}
 
-            <h2>Assigned Items</h2>
-            <table className="item-models-table">
-                <thead>
-                    <tr>
-                        <th>Item HSN Code</th>
-                        <th>Item Name</th>
-                        <th>Rack Name</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {itemAssignments.map((assignment) => (
-                        <tr key={assignment._id}>
-                            <td>{assignment.itemId ? assignment.itemId.hsnCode : "N/A"}</td>
-                            <td>{assignment.itemId ? assignment.itemId.partName : "N/A"}</td>
-                            <td>{assignment.rackId ? assignment.rackId.rackName : "N/A"}</td>
-                            <td>{assignment.status}</td>
-                            <td className="item-models-actions">
-                                <button onClick={() => setDropdownOpen((prev) => (prev === assignment._id ? null : assignment._id!))}>
-                                    <MoreVertical size={20} />
-                                </button>
-                                {dropdownOpen === assignment._id && (
-                                    <div className="item-models-dropdown">
-                                        <button onClick={() => handleEdit(assignment)}>Edit</button>
-                                        <button className="delete" onClick={() => handleDelete(assignment._id)}>Delete</button>
+            {loading ? ( // Show spinner while loading
+                <div className="spinner"></div>
+            ) : (
+                <>
+                    {isModalOpen && (
+                        <div className="item-models-modal-overlay">
+                            <div className="item-models-modal">
+                                <div className="item-models-modal-header">
+                                    <h5>{isEditing ? "Edit Assignment" : "Add New Assignment"}</h5>
+                                    <button className="item-models-modal-close" onClick={() => setIsModalOpen(false)}>
+                                        <X size={20} />
+                                    </button>
+                                </div>
+                                <form onSubmit={handleSubmit}>
+                                    <div>
+                                        <label htmlFor="itemSelect">Select Item:</label>
+                                        <select
+                                            id="itemSelect"
+                                            value={selectedItemId}
+                                            onChange={(e) => setSelectedItemId(e.target.value)}
+                                        >
+                                            <option value="">Select an item</option>
+                                            {items.map((item) => (
+                                                <option key={item._id} value={item._id}>
+                                                    {item.partName} (HSN: {item.hsnCode})
+                                                </option>
+                                            ))}
+                                        </select>
                                     </div>
-                                )}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                                    <div>
+                                        <label htmlFor="rackSelect">Select Rack:</label>
+                                        <select
+                                            id="rackSelect"
+                                            value={selectedRackId}
+                                            onChange={(e) => setSelectedRackId(e.target.value)}
+                                        >
+                                            <option value="">Select a rack</option>
+                                            {racks.map((rack) => (
+                                                <option key={rack._id} value={rack._id}>
+                                                    {rack.rackName}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <button type="submit">{isEditing ? "Update Item" : "Add Item"}</button>
+                                </form>
+                            </div>
+                        </div>
+                    )}
+
+                    <h2>Assigned Items</h2>
+                    <table className="item-models-table">
+                        <thead>
+                            <tr>
+                                <th>Item HSN Code</th>
+                                <th>Item Name</th>
+                                <th>Rack Name</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {currentItems.map((assignment) => (
+                                <tr key={assignment._id}>
+                                    <td>{assignment.itemId ? assignment.itemId.hsnCode : "N/A"}</td>
+                                    <td>{assignment.itemId ? assignment.itemId.partName : "N/A"}</td>
+                                    <td>{assignment.rackId ? assignment.rackId.rackName : "N/A"}</td>
+                                    <td>{assignment.status}</td>
+                                    <td className="item-models-actions">
+                                        <button onClick={() => setDropdownOpen((prev) => (prev === assignment._id ? null : assignment._id!))}>
+                                            <MoreVertical size={20} />
+                                        </button>
+                                        {dropdownOpen === assignment._id && (
+                                            <div className="item-models-dropdown">
+                                                <button onClick={() => handleEdit(assignment)}>Edit</button>
+                                                <button className="delete" onClick={() => handleDelete(assignment._id)}>Delete</button>
+                                            </div>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+
+                    {/* Pagination Component */}
+                    <Pagination 
+                        currentPage={currentPage} 
+                        totalPages={totalPages} 
+                        onPageChange={setCurrentPage} 
+                    />
+                </>
+            )}
         </div>
     );
 };
