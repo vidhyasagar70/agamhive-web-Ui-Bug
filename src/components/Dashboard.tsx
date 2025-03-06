@@ -1,11 +1,5 @@
-import React, { useState } from "react";
-import { 
-  LayoutDashboard, 
-  Package, 
-  Users, 
-  Settings, 
-  ChevronDown 
-} from "lucide-react"; 
+import React, { useState, useEffect } from "react";
+import { LayoutDashboard, Package, Users, Settings, ChevronDown } from "lucide-react"; 
 import "../styles/dashboard.css"; 
 import UOMMaster from "../components/UOMMaster"; 
 import ItemCategory from "./ItemCategory";
@@ -15,12 +9,13 @@ import ItemList from "./ItemList";
 import GifDisplay from "./GifDisplay";
 import DashboardContent from "./DashboardContent";
 import RackComponent from "./RackComponent";
-import ItemAssignedRacks from "./ItemAssignmentForm";
-
+import ItemAssignmentForm from "./ItemAssignmentForm";
 import InwardOptionComponent from "./InwardOptionComponent";
 import CountryMaster from "./CountryMaster";
 import StateMaster from "./StateMaster";
 import CityMaster from "./CityMaster";
+// import CurrencyMaster from "./CurrencyMaster";
+
 interface OpenMenus {
   MasterItem: boolean;
   Contributor: boolean;
@@ -34,8 +29,16 @@ const Dashboard: React.FC = () => {
     General: false,
   });
 
-  const [activePage, setActivePage] = useState<string>("dashboard");
+  // Retrieve active page from localStorage or default to "dashboard"
+  const [activePage, setActivePage] = useState<string>(() => {
+    return localStorage.getItem("activePage") || "dashboard";
+  });
+
   const [showInventoryContent, setShowInventoryContent] = useState<boolean>(false);
+
+  useEffect(() => {
+    localStorage.setItem("activePage", activePage);
+  }, [activePage]);
 
   const toggleMenu = (menu: keyof OpenMenus) => {
     setOpenMenus((prev) => ({
@@ -46,7 +49,7 @@ const Dashboard: React.FC = () => {
 
   const toggleInventoryContent = () => {
     setShowInventoryContent((prev) => !prev);
-    setActivePage("dashboard"); 
+    setActivePage("dashboard");
   };
 
   const handleSubItemClick = (page: string) => {
@@ -58,13 +61,11 @@ const Dashboard: React.FC = () => {
       <aside className="sidebar">
         <nav>
           <ul>
-            
             <li className="dashboard-heading" onClick={toggleInventoryContent}>
               <LayoutDashboard className="menu-icon" />
               Dashboard
             </li>
 
-            
             <li className="submenu">
               <span className="menu-label" onClick={() => toggleMenu("MasterItem")}>
                 <Package className="menu-icon" />
@@ -84,7 +85,6 @@ const Dashboard: React.FC = () => {
               )}
             </li>
 
-           
             <li className="submenu">
               <span className="menu-label" onClick={() => toggleMenu("Contributor")}>
                 <Users className="menu-icon" />
@@ -101,7 +101,6 @@ const Dashboard: React.FC = () => {
               )}
             </li>
 
-           
             <li className="submenu">
               <span className="menu-label" onClick={() => toggleMenu("General")}>
                 <Settings className="menu-icon" />
@@ -125,21 +124,15 @@ const Dashboard: React.FC = () => {
       </aside>
 
       <main className="content">
-        {activePage === "dashboard" && (
-          <div className="dashboard-header">
-            <DashboardContent/>
-          </div>
-        )}
-
-        
+        {activePage === "dashboard" && <DashboardContent />}
         {activePage === "uomMaster" && <UOMMaster />}
         {activePage === "itemCategory" && <ItemCategory />}
         {activePage === "itemModel" && <ItemModels />}
-        {activePage === "newItem" && <ItemList   />}
-        {activePage === "newRack" && <RackComponent/>}
+        {activePage === "newItem" && <ItemList />}
+        {activePage === "newRack" && <RackComponent />}
         {activePage === "inwardOption" && <InwardOptionComponent />}
         {activePage === "outwardOption" && <OutwardOptions />}
-        {activePage === "itemAssignedRack" && <ItemAssignedRacks />}
+        {activePage === "itemAssignedRack" && <ItemAssignmentForm />}
         {activePage === "newContributor" && <GifDisplay />}
         {activePage === "deliveryPlace" && <GifDisplay />}
         {activePage === "supplierParts" && <GifDisplay />}
@@ -147,7 +140,7 @@ const Dashboard: React.FC = () => {
         {activePage === "countryMaster" && <CountryMaster />}
         {activePage === "stateMaster" && <StateMaster />}
         {activePage === "cityMaster" && <CityMaster />}
-        {activePage === "currencyMaster" && <GifDisplay />}
+        {/* {activePage === "currencyMaster" && <CurrencyMaster />} */}
         {activePage === "gstSlabMaster" && <GifDisplay />}
         {activePage === "approvalRole" && <GifDisplay />}
       </main>
