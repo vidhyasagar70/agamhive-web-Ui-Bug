@@ -1,0 +1,119 @@
+.carousel {
+    width: 100vw;
+    height: 100vh;
+    background-color: #d8853a;
+    background-image: linear-gradient(315deg, #d8853a 0%, #E5AA70 74%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    
+}
+
+/* Vector Background */
+.vectorBackground {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+/* Warehouse Shelves */
+.shelfIcon {
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    width: 140px;
+    height: 140px;
+    opacity: 0.7;
+    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.2));
+}
+
+/* Box Icon */
+.boxIcon {
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    width: 100px;
+    height: 100px;
+    opacity: 0.8;
+    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.3));
+}
+
+/* Barcode Scanner */
+.scannerIcon {
+    position: absolute;
+    top: 30%;
+    right: 10%;
+    width: 90px;
+    height: 90px;
+    opacity: 0.7;
+    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.3));
+}
+
+/* Trolley/Cart */
+.trolleyIcon {
+    position: absolute;
+    bottom: 15%;
+    right: 20%;
+    width: 110px;
+    height: 110px;
+    opacity: 0.7;
+    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.2));
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+    .title {
+        font-size: 2.5rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .shelfIcon, .boxIcon, .scannerIcon, .trolleyIcon {
+        width: 90px;
+        height: 90px;
+    }
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+    }
+
+    .shelfIcon, .boxIcon, .scannerIcon, .trolleyIcon {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 1.8rem;
+    }
+
+    .subtitle {
+        font-size: 0.8rem;
+    }
+
+    .copyright {
+        font-size: 0.8rem;
+    }
+
+    .shelfIcon, .boxIcon, .scannerIcon, .trolleyIcon {
+        width: 70px;
+        height: 70px;
+    }
+}

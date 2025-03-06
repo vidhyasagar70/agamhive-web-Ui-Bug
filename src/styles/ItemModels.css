@@ -1,0 +1,273 @@
+.item-models-container {
+  padding-left: 15px;
+  padding-top:65px;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+
+.item-models-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.item-models-add-btn {
+  display: flex;
+  align-items: center;
+  background-color: #ff7a00;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.item-models-add-btn:hover {
+  background-color: #e06c00;
+}
+
+
+.item-models-table-wrapper {
+  width: 70%;
+  margin: 0 auto;
+  background-color: #f0f1f5;
+  border-radius: 12px;
+  padding: 15px;
+}
+
+.item-models-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.item-models-table th,
+.item-models-table td {
+ 
+  background-color: white;
+  color: #444;
+  font-weight: 500;
+  padding: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+  position: relative;
+  height:55px; 
+}
+
+.item-models-table th {
+  background: rgb(241, 244, 244);
+  color: black;
+  font-weight: 600;
+  padding: 12px;
+  border-bottom: 1px solid #c0c0c0;
+}
+
+.item-models-actions {
+  position: relative;
+  text-align: center;
+  width: 100px;
+}
+
+.item-models-table td {
+  padding: 10px;
+  text-align: left;
+  color: #555;
+}
+
+.item-models-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+
+.item-models-actions {
+  position: relative;
+  overflow: visible;
+}
+
+.item-models-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  min-width: 120px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s;
+}
+
+.item-models-actions:hover .item-models-dropdown {
+  visibility: visible;
+  opacity: 1;
+}
+
+.item-models-dropdown button {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.item-models-dropdown button:hover {
+  background-color: #ff7a00;
+  color: white;
+}
+
+
+.item-models-actions:last-child .item-models-dropdown {
+  bottom: auto;
+  top: auto;
+  transform: translateY(-100%);
+}
+
+
+.item-models-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+.item-models-modal {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.item-models-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.item-models-modal-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.item-models-modal form {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-models-modal input,
+.item-models-modal select {
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.item-models-modal button {
+  background-color: #ff7a00;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.item-models-modal button:hover {
+  background-color: #e06c00;
+}
+
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+}
+
+.spinner::after {
+  content: "";
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 165, 0, 0.3); /* Light orange border */
+  border-top-color: #ffa500; /* Solid orange color */
+  border-radius: 50%;
+  animation: spin 0.8s ease-in-out infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .item-models-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .item-models-search {
+    width: 100%;
+  }
+
+  .item-models-table-wrapper {
+    width: 85%;
+  }
+
+  .item-models-table {
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+
+  .item-models-table th,
+  .item-models-table td {
+    white-space: nowrap;
+  }
+
+  .item-models-modal {
+    width: 95%;
+    max-width: 350px;
+  }
+}

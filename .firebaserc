@@ -1,0 +1,19 @@
+{
+  "projects": {
+    "default": "agamhive"
+  },
+  "targets": {
+    "agamhive": {
+      "hosting": {
+        "dev": [
+          "agamhive-dev"
+        ],
+        "prod": [
+          "agamhive"
+        ]
+      }
+    }
+  },
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
+}

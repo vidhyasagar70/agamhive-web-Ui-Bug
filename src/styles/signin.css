@@ -1,0 +1,215 @@
+/* General Styles */
+
+/* Main Container */
+.signin-container {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+/* Carousel Section - Full Left Coverage */
+.carousel-container {
+  width: 60%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+.carousel-container.full-height {
+  height: 100vh;
+  width: 60%;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+}
+
+/* Hide Scrollbar */
+::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  overflow: hidden;
+}
+
+/* Sign-in Form Section */
+.signin-form-container {
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: transparent;
+}
+
+.signin-form {
+  width: 100%;
+  max-width: 350px;
+  text-align: center;
+}
+
+/* Logo */
+.agam-hive-title {
+  text-align: left;
+  font-size: 28px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 65px;
+  position: relative;
+  top: -10px;
+}
+
+/* Form Titles */
+.signin-title {
+  text-align: left;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.signin-subtitle {
+  text-align: center;
+  font-size: 12px;
+}
+
+/* Form Inputs */
+.signin-form .form-control {
+  border: none;
+  border-bottom: 2px solid #ccc;
+  border-radius: 0;
+  height: 45px;
+  font-size: 16px;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+}
+
+.signin-form .form-control:focus {
+  border-bottom-color: grey;
+  outline: none;
+  box-shadow: none;
+}
+
+/* Buttons */
+.signin-form .btn {
+  height: 50px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  width: 100%;
+  transition: 0.3s ease;
+}
+
+.signin-form .btn:hover {
+  background-color: #222;
+}
+
+.btn-spacing {
+  height: 15px;
+}
+
+/* Password Field with Eye Icon */
+.password-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.password-container input {
+  padding-right: 40px;
+}
+
+.password-container .eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 24px;
+  cursor: pointer;
+}
+
+/* Create Account & Forgot Password */
+.create-account {
+  color: black;
+  font-weight: bold;
+}
+
+.forgot-password {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 15px;
+}
+
+/* Google Login Button */
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white !important;
+  color: black !important;
+  font-size: 16px;
+  font-weight: 600;
+  width: 100%;
+  height: 50px;
+  border-radius: 8px;
+  transition: 0.3s ease;
+  border: 1px solid grey !important;
+}
+
+.google-btn:hover {
+  background-color: #f9f9f9;
+  border-color: #aaa;
+}
+
+.google-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991px) {
+  .signin-container {
+    flex-direction: column;
+  }
+
+  .carousel-container {
+    width: 100%;
+    height: 50vh;
+  }
+
+  .signin-form-container {
+    width: 100%;
+    padding: 30px;
+  }
+}
+
+@media (max-width: 576px) {
+  .carousel-container {
+    height: 40vh;
+  }
+
+  .signin-form-container {
+    height: auto;
+    padding: 20px;
+  }
+
+  .signin-form {
+    width: 90%;
+  }
+}
