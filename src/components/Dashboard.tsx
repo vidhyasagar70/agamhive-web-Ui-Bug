@@ -15,7 +15,7 @@ import ItemList from "./ItemList";
 import GifDisplay from "./GifDisplay";
 import DashboardContent from "./DashboardContent";
 import RackComponent from "./RackComponent";
-import ItemAssignedRacks from "./ItemAssignedRacks";
+import ItemAssignedRacks from "./ItemAssignmentForm";
 
 import InwardOptionComponent from "./InwardOptionComponent";
 import CountryMaster from "./CountryMaster";

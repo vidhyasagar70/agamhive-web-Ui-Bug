@@ -2,6 +2,10 @@ export interface Rack {
     id?: number;
     rackName: string;
     status: string;
+    
+    _id?: string; 
+   
+    createdAt?: string;
   }
   
 
